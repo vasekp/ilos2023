@@ -21,7 +21,7 @@ fn main() {
         counts = counts_new;
     }
     //println!("{counts:?}");
-    let count = |target| counts.iter().map(|btree| btree.get(&target).map(|&x| x).unwrap_or(0)).sum::<usize>();
+    let count = |target| counts.iter().map(|btree| btree.get(&target).copied().unwrap_or(0)).sum::<usize>();
     println!("{}X{}", count(24), count(42));
 }
 

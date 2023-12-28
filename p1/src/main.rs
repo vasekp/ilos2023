@@ -32,7 +32,7 @@ impl Plotter {
 
     fn writeout(&self) {
         for row in &self.mat {
-            println!("{}", std::str::from_utf8(&row).unwrap());
+            println!("{}", std::str::from_utf8(row).unwrap());
         }
     }
 

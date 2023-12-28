@@ -1,5 +1,6 @@
 use std::io::{self, BufRead};
 use std::cell::Cell;
+use std::cmp::Ordering;
 
 #[derive(Debug, Clone, Copy)]
 enum Ori {
@@ -95,12 +96,14 @@ struct Car {
 
 impl Car {
     fn pref_dirs(&self, x: usize, y: usize) -> [Option<Dir>; 3] {
-        let pref_x = if x < self.target_pos.0 { Some(PlusX) }
-            else if x > self.target_pos.0 { Some(MinusX) }
-            else { None };
-        let pref_y = if y < self.target_pos.1 { Some(PlusY) }
-            else if y > self.target_pos.1 { Some(MinusY) }
-            else { None };
+        let pref_x = match x.cmp(&self.target_pos.0) {
+            Ordering::Less => Some(PlusX),
+            Ordering::Greater => Some(MinusX),
+            Ordering::Equal => None };
+        let pref_y = match y.cmp(&self.target_pos.1) {
+            Ordering::Less => Some(PlusY),
+            Ordering::Greater => Some(MinusY),
+            Ordering::Equal => None };
         let pref_t = if x == self.target_pos.0 && y == self.target_pos.1 { Some(self.target_dir) }
             else { None };
         [pref_x, pref_y, pref_t]
